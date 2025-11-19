@@ -1,4 +1,5 @@
 
+
 from event import event as Event
 class timeline:
     def __init__(self): 
@@ -26,8 +27,7 @@ class timeline:
         #Empty case 
             #what if the timeline is empty --> check this case 
             #if its empty --> dont look for the last event --> just insert it in the list 
-            #add +1 to self.count --> because we are adding one event 
-        
+            #add +1 to self.count --> because we are adding one event       
         if self.count == 0: 
             self.start = event 
             self.end = event
@@ -42,14 +42,15 @@ class timeline:
             self.end.next = event
             event.previous = self.end 
             self.end = event 
-            self.count += 1 
-    
+            self.count += 1    
+
+
     def remove(self, target, front= False) : #Front = False : it just means we want to check from backwards 
         if not isinstance(target, Event): 
             raise NotImplementedError
         isFound = False 
         if front == True : 
-            current = self.end
+            current = self.start  # i had self.end here before so im changing it for the sake of direction
             while current != None: 
                 if current == target: 
                     isFound = True 
@@ -67,14 +68,17 @@ class timeline:
                         new_prev = current.previous 
                         new_next.previous = new_prev 
                         new_prev.next = new_next       
+                     
+                    self.count -= 1          
                     return
-                current = current.previous 
+                current = current.next  
+
             if not isFound:
                 raise ValueError
         if front == False: 
-            current = self.start 
+            current = self.end  
             while current != None: 
-                if current == target: 
+                if current == target:
                     isFound = True 
                     if current.previous == None and current.next == None: 
                         self.start = None 
@@ -89,13 +93,15 @@ class timeline:
                         new_next  = current.next 
                         new_prev = current.previous 
                         new_next.previous = new_prev #Look at the diagram again 
-                        new_prev.next = new_next     
-                        current.next = None     
-                        current.previous = None  
+                        new_prev.next = new_next       
+                    self.count -= 1          #OK this was missing so len wasnt working
                     return
-                current = current.next #We want this to be the next one now 
+
+                current = current.previous 
+
             if not isFound:
                 raise ValueError
+
 
     def isSorted(self, rev):
      if self.start == None or self.start.next == None:
@@ -192,43 +198,7 @@ class timeline:
                 
                 current = next_node
         
-    # def add_sorted(self, event, rev=False): 
-    #     if not isinstance(event, Event):
-    #         raise ValueError
-    #     if event.next != None and event.previous != None:
-    #         raise NotImplementedError
-        
-    #     self.sort(rev = rev)
-
-    #     if self.count == 0:
-    #         self.start = event 
-    #         self.end = event 
-    #         self.count +=1 
-    #         return 
-
-    #     if rev == False and event < self.start : 
-    #         event.next = self.start 
-    #         self.start.previous = event 
-    #         self.start = event 
-    #         return 
-        
-    #     temp = self.start 
-
-    #     while temp != None and event > temp: 
-    #             temp = temp.next
-
-    #     if temp != None: 
-    #         temp.previous.next = event 
-    #         event.previous = temp.previous 
-    #         event.next = temp
-    #         temp.previous = event 
-    #         self.count +=1 
-        
-    #     else :
-    #         event.previous = self.end
-    #         self.end.next = event
-    #         self.end = event 
-    #         self.count +=1 
+ 
 
 
     def add_sorted(self, event, rev=False):
@@ -279,6 +249,40 @@ main()
         
     
     
+
+        
+           
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+
+            
+
+        
+    
+
+
+
+
 
         
            
